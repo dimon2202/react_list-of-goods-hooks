@@ -56,7 +56,7 @@ const getPrepearedGoods = (
 };
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<SortType>(SortType.Default);
   const [reversed, setReversed] = useState(false);
 
   const visibleGoods = getPrepearedGoods(goodsFromServer, {
@@ -69,7 +69,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          onClick={() => setSortField('alphabetically')}
+          onClick={() => setSortField(SortType.Alphabetically)}
           className={cn('button', 'is-info', {
             'is-light': sortField !== SortType.Alphabetically,
           })}
@@ -82,7 +82,7 @@ export const App: React.FC = () => {
           className={cn('button', 'is-success', {
             'is-light': sortField !== SortType.Length,
           })}
-          onClick={() => setSortField('length')}
+          onClick={() => setSortField(SortType.Length)}
         >
           Sort by length
         </button>
@@ -102,7 +102,7 @@ export const App: React.FC = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortField('');
+              setSortField(SortType.Default);
               setReversed(false);
             }}
           >
@@ -112,13 +112,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {visibleGoods.map(good => (
-            <li key={good} data-cy="Good">
-              {good}
-            </li>
-          ))}
-        </ul>
+        {visibleGoods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
